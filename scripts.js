@@ -1,7 +1,11 @@
 const goHomeBtn = document.querySelector('#goHome');
 var database,
     users,
-    posts;
+    posts,
+    activeUser;
+
+    // Hord coded in just to test functionality - not secure at all!!!
+var password = 'testPass1';
 
 function initializeFirebase() {
     var config = {
@@ -18,6 +22,35 @@ function initializeFirebase() {
 
     getUserInfo();
     getPostsForFeed();
+}
+
+/**
+ * @name getUserInfo
+ * @desc gets all of the users information
+ * @return {void}
+*/
+function getUserInfo() {
+    var ref = database.ref("users");
+
+    ref.on("value", function(snapshot) {
+        users = [];
+        snapshot.forEach(function(childSnapshot) {
+            // console.log(childSnapshot.val());
+            users.push(childSnapshot.val());
+        });
+        console.log(users);
+        userLogIn(password);
+    });
+}
+
+function userLogIn(password) {
+    users.forEach(function(user) {
+        if(user.pass === password) {
+            activeUser = user;
+        }
+    });
+
+    // console.log(activeUser);
 }
 
 /**
@@ -42,24 +75,6 @@ function getPostsForFeed() {
         }).join('');
 
         document.querySelector('#feedContent').innerHTML = feedHTML;
-    });
-}
-
-/**
- * @name getUserInfo
- * @desc gets all of the users information
- * @return {void}
-*/
-function getUserInfo() {
-    var ref = database.ref("users");
-
-    ref.on("value", function(snapshot) {
-        users = [];
-        snapshot.forEach(function(childSnapshot) {
-            // console.log(childSnapshot.val());
-            users.push(childSnapshot.val());
-        });
-        console.log(users);
     });
 }
 
