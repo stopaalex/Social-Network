@@ -1,5 +1,7 @@
 const goHomeBtn = document.querySelector('#goHome');
-var database;
+var database,
+    users,
+    posts;
 
 function initializeFirebase() {
     var config = {
@@ -14,26 +16,58 @@ function initializeFirebase() {
 
     database = firebase.database();
 
-    var ref = firebase.database().ref("users");
+    getUserInfo();
+    getPostsForFeed();
+}
 
-    ref.on("value", function (snapshot) {
-        var data = [];
-        snapshot.forEach(function (childSnapshot) {
-            // console.log(childSnapshot.val());
-            data.push(childSnapshot.val());
+/**
+ * @name getPostsForFeed
+ * @desc gets all of the posts for the feed
+ * @return {void}
+*/
+function getPostsForFeed() {
+    var ref = database.ref("Posts");
+
+    ref.on("value", function(snapshot) {
+        posts = [];
+        snapshot.forEach(function(childSnapshot) {
+            posts.push(childSnapshot.val());
         });
+        // console.log(posts);
 
-        console.log(data);
-
-        var html = data.map(function(data) {
-            return '<div>' + data.first_name + '</div>'
+        var feedHTML = posts.map(function(post) {
+            var poster = post.poster;
+            var text_content = post.text_content;
+            return '<div class="feed-post"><div class="info">' + poster + '</div><div class="text">' + text_content + '</div></div>';
         }).join('');
 
-        document.querySelector('.home-body').innerHTML = html;
-
+        document.querySelector('#feedContent').innerHTML = feedHTML;
     });
 }
 
+/**
+ * @name getUserInfo
+ * @desc gets all of the users information
+ * @return {void}
+*/
+function getUserInfo() {
+    var ref = database.ref("users");
+
+    ref.on("value", function(snapshot) {
+        users = [];
+        snapshot.forEach(function(childSnapshot) {
+            // console.log(childSnapshot.val());
+            users.push(childSnapshot.val());
+        });
+        console.log(users);
+    });
+}
+
+/**
+ * @name writeUserData
+ * @desc writes a new users data to the database
+ * @return {void}
+*/
 function writeUserData() {
     firebase.database().ref('users/' + 12345678912).set({
         first_name: 'Alan',
@@ -49,7 +83,7 @@ function initialize() {
 
     initializeFirebase();
 
-    writeUserData();
+    // writeUserData();
 
 }
 

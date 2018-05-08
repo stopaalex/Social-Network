@@ -8,38 +8,48 @@ body {
 }
 
 .header {
-  background: rgba(0,150,175,1);
-  height: 50px;
-  color:  #FFFFFF;
-  display:  flex;
-  padding: 10px;
+  position:  absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 130px;
 }
 
-.header .left {
-  flex: 1;
-  display:  flex;
-  justify-content:  flex-start;
-  align-items:  center;
+.diagonal-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: #4fa4de;
+  -webkit-clip-path: polygon(0 0, 0% 100%, 100% 0);
+  clip-path: polygon(0 0, 0% 100%, 100% 0);
 }
 
-.header .right {
-  flex: 1;
-  display: flex;
-  justify-content:  flex-end;
-  align-items:  center;
-}
-
-.header .left div {
+#goHome {
+  width: calc(100% - 100px);
   padding: 5px;
-  cursor:  pointer;
-  user-select: none;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
   transition: 250ms;
 }
 
-.header .left div:hover {
-  transform: scale(1.05);
+#goHome div {
+  color: #FFFFFF;
+  font-weight:  600;
+  line-height: 0.7;
+  font-size: 1.5em;
+  text-align: center;
 }
 
-.header .left div:active {
-  background: rgba(0,0,0,0.1);
+#goHome div:last-of-type {
+  font-weight:  100;
+}
+
+.body {
+  width: 100%;
+  min-height: 100vh;
+  padding: 75px 100px;
+  position: relative;
+  z-index: 1;
 }

@@ -7,6 +7,8 @@
   <link rel="stylesheet"
         href="style.css">
   <link rel="stylesheet"
+        href="feed.css">
+  <link rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
         integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
         crossorigin="anonymous">
@@ -19,16 +21,29 @@
 <body>
 
   <div class="home-header header">
-    <div class="left">
+    <div class="diagonal-container">
       <div id="goHome">
-        SOCIALnetwork
+        <div>SOCIAL</div>
+        <div>network</div>
       </div>
     </div>
-    <div class="right">Menu</div>
   </div>
 
   <div class="home-body body">
-    <!-- <button><a href="profilePage.html">To Profile</a></button> -->
+    <div class="home-feed">
+      <div class="add-feed-content">
+        <div>
+          <div>
+            <input type="text">
+          </div>
+          <div>
+            <button>Post to feed</button>
+          </div>
+        </div>
+      </div>
+      <div class="feed-content" id="feedContent"></div>
+      <!-- POSTS WILL SHOW UP HERE -->
+    </div>
     <div class="home-landing-createProfile"></div>
   </div>
   <script src="scripts.js"></script>
