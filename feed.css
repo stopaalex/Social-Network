@@ -1,3 +1,39 @@
+.feed-add {
+    display:  flex;
+    align-items:  center;
+}
+
+.feed-add .input {
+    width: calc(100% - 84px);
+    height: 40px;
+}
+
+.feed-add .input textarea {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 40px;
+    border: 1px solid #e7e7e7;
+    outline: none;
+    font-family:  helvetica;
+    padding: 5px;
+    resize: none;
+}
+
+.post-to-feed button {
+    background: #336699;
+    color:  #FFFFFF;
+    border: none;
+    height: 40px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+}
+
+.post-to-feed button:hover {
+    background: #245382;
+}
+
 .feed-post {
     border: 1px solid #e7e7e7;
     border-radius: 10px;
