@@ -1,11 +1,14 @@
 const goHomeBtn = document.querySelector('#goHome');
+const logInCont = document.querySelector('#feedLoginContent');
+const newPostHTML = '<div class="feed-add"><div class="input"><textarea id="feedAddContent"></textarea></div><div class="post-to-feed"><button id="postToFeed">Post to feed</button></div></div>';
 var database,
-    users,
-    posts,
-    activeUser;
+    users = [],
+    posts = [],
+    activeUser,
+    userLoggedIn = false;
 
-    // Hord coded in just to test functionality - not secure at all!!!
-var password = 'testPass1';
+// Hord coded in just to test functionality - not secure at all!!!
+var password = '';
 
 function initializeFirebase() {
     var config = {
@@ -27,68 +30,75 @@ function initializeFirebase() {
 /**
  * @name getUserInfo
  * @desc gets all of the users information
- * @return {void}
 */
 function getUserInfo() {
     var ref = database.ref("users");
 
     ref.on("value", function(snapshot) {
-        users = [];
         snapshot.forEach(function(childSnapshot) {
             // console.log(childSnapshot.val());
             users.push(childSnapshot.val());
         });
-        console.log(users);
-        userLogIn(password);
     });
-}
-
-function userLogIn(password) {
-    users.forEach(function(user) {
-        if(user.pass === password) {
-            activeUser = user;
-        }
-    });
-
-    // console.log(activeUser);
 }
 
 /**
  * @name getPostsForFeed
  * @desc gets all of the posts for the feed
- * @return {void}
 */
 function getPostsForFeed() {
+    // Defining the reference to get data from the database
     var ref = database.ref("Posts");
-
     ref.on("value", function(snapshot) {
-        posts = [];
         snapshot.forEach(function(childSnapshot) {
             posts.push(childSnapshot.val());
         });
-        // console.log(posts);
-
         var feedHTML = posts.map(function(post) {
             var poster = post.poster;
             var text_content = post.text_content;
             return '<div class="feed-post"><div class="info">' + poster + '</div><div class="text">' + text_content + '</div></div>';
         }).join('');
 
+        if (userLoggedIn) {
+            document.querySelector('#feedAddContent').innerHTML = newPostHTML;
+            logInCont.style.display = 'none';
+        }
         document.querySelector('#feedContent').innerHTML = feedHTML;
     });
 }
 
+// /**
+//  * @name writeUserData
+//  * @desc writes a new users data to the database
+// */
+// function writeUserData() {
+//     firebase.database().ref('users/' + 12345678912).set({
+//         first_name: 'Alan',
+//         last_name: 'Mark',
+//         uniquer_ID: 12345678912
+//     });
+// }
+
 /**
- * @name writeUserData
- * @desc writes a new users data to the database
- * @return {void}
-*/
-function writeUserData() {
-    firebase.database().ref('users/' + 12345678912).set({
-        first_name: 'Alan',
-        last_name: 'Mark',
-        uniquer_ID: 12345678912
-    });
+ * @name userLogIn
+ * @desc log in from the user
+ */
+function userLogIn() {
+    var lastName = document.querySelector('#logInLastName').value;
+    var password = document.querySelector('#logInPassword').value;
+
+    users.forEach(function(user) {
+        if (lastName === user.last_name && password === user.pass) {
+            userLoggedIn = true;
+            document.querySelector('#feedAddContent').innerHTML = newPostHTML;
+            logInCont.style.display = 'none';
+        }
+    })
+    if (userLoggedIn) {
+        console.log('LOGGED IN');
+    } else {
+        console.log('BAD CREDENTIALS');
+    }
 }
 
 function initialize() {
@@ -97,9 +107,6 @@ function initialize() {
     });
 
     initializeFirebase();
-
-    // writeUserData();
-
 }
 
 initialize();

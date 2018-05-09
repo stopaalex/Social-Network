@@ -31,16 +31,25 @@
 
   <div class="home-body body">
     <div class="home-feed">
-      <div class="feed-add-content">
-        <div class="feed-add">
-          <div class="input">
-            <textarea id="feedAddContent"></textarea>
+      <div class="feed-add-content" id="feedAddContent">
+        <!-- NEW POST CONTENT GOES HERE IF USER IS LOGGED IN -->
+      </div>
+
+      <div class="feed-login-content" id="feedLoginContent">
+        <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
+        <div class="feed-login">
+          <div class="feed-inputs">
+            <input type="text" placeholder="Last Name" id="logInLastName">
+            <input type="password" placeholder="Password" id="logInPassword">
           </div>
-          <div class="post-to-feed">
-            <button id="postToFeed">Post to feed</button>
+          <div class="feed-login-btn">
+            <button id="feedLoginBtn" onclick="userLogIn()">Log In</button>
+            <div>New iuser?</div>
+            <button id="feedCreateBtn">Create Profile</button>
           </div>
         </div>
       </div>
+
       <div class="feed-content" id="feedContent"></div>
       <!-- POSTS WILL SHOW UP HERE -->
     </div>

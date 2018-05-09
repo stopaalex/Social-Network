@@ -47,9 +47,9 @@ body {
 }
 
 .body {
-  width: 100%;
+  width: calc(100vw - 200px);
   min-height: 100vh;
-  padding: 75px 100px;
+  margin: 75px 100px 0 100px;
   position: relative;
   z-index: 1;
 }

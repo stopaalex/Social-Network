@@ -20,6 +20,64 @@
     resize: none;
 }
 
+.feed-login-content {
+    display: flex;
+    justify-content: center;
+    background: #f2f2f2;
+    padding: 20px;
+}
+.feed-login {
+    display: flex;
+    align-items: center;
+    width: 60%;
+}
+
+.feed-inputs {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.feed-inputs input {
+    height: 35px;
+    margin: 5px;
+    outline: none;
+}
+
+.feed-login-btn {
+    display: flex;
+    flex-direction:  column;
+    align-items: center;
+    flex: 1;
+}
+
+.feed-login-btn button {
+    width: 100px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor:  pointer;
+    outline: none;
+}
+
+.feed-login-btn button:first-of-type {
+    background: #336699;
+    color: #FFFFFF;
+}
+
+.feed-login-btn button:hover {
+    background: #e7e7e7;
+}
+.feed-login-btn button:first-of-type:hover {
+    background: #245382;
+}
+
+.feed-login-btn div {
+    font-size: 10px;
+    margin: 5px 0 2px 0;
+}
+
+
 .post-to-feed button {
     background: #336699;
     color:  #FFFFFF;
