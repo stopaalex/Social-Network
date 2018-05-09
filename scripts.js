@@ -1,6 +1,7 @@
 const goHomeBtn = document.querySelector('#goHome');
 const logInCont = document.querySelector('#feedLoginContent');
 const newPostHTML = '<div class="feed-add"><div class="input"><textarea id="feedAddContent"></textarea></div><div class="post-to-feed"><button id="postToFeed">Post to feed</button></div></div>';
+const createProfileModal = document.querySelector('#createProfileModal');
 var database,
     users = [],
     posts = [],
@@ -24,7 +25,6 @@ function initializeFirebase() {
     database = firebase.database();
 
     getUserInfo();
-    getPostsForFeed();
 }
 
 /**
@@ -61,21 +61,30 @@ function getPostsForFeed() {
 
         if (userLoggedIn) {
             document.querySelector('#feedAddContent').innerHTML = newPostHTML;
+            document.querySelector('#feedContent').innerHTML = feedHTML;
             logInCont.style.display = 'none';
         }
-        document.querySelector('#feedContent').innerHTML = feedHTML;
     });
 }
 
+function showCreateProfileModal() {
+    createProfileModal.style.display = 'flex';
+}
+
+function hideCreateProfileModal() {
+    createProfileModal.style.display = 'none';
+}
+
 // /**
-//  * @name writeUserData
+//  * @name createNewUserProfile
 //  * @desc writes a new users data to the database
 // */
-// function writeUserData() {
+// function createNewUserProfile() {
 //     firebase.database().ref('users/' + 12345678912).set({
-//         first_name: 'Alan',
-//         last_name: 'Mark',
-//         uniquer_ID: 12345678912
+//         first_name: 'James',
+//         last_name: 'Dude',
+//         uniquer_ID: 12345678912,
+//         pass: testPass4
 //     });
 // }
 
@@ -96,17 +105,20 @@ function userLogIn() {
     })
     if (userLoggedIn) {
         console.log('LOGGED IN');
+        getPostsForFeed();
     } else {
         console.log('BAD CREDENTIALS');
     }
 }
 
 function initialize() {
+    createProfileModal.style.display = 'none';
+
+    initializeFirebase();
+
     goHomeBtn.addEventListener('click', function () {
         location.href = 'index.html';
     });
-
-    initializeFirebase();
 }
 
 initialize();
