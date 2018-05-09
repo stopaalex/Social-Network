@@ -142,12 +142,20 @@ function userLogIn() {
             document.querySelector('#feedAddContent').innerHTML = newPostHTML;
             logInCont.style.display = 'none';
         }
-    })
+    });
     if (userLoggedIn) {
         console.log('LOGGED IN');
         getPostsForFeed();
     } else {
         console.log('BAD CREDENTIALS');
+    }
+
+    if (updateLogInSave()) {
+        var SNCreds = [
+            {lastName: lastName},
+            {password: password}
+        ]
+        window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
     }
 }
 
@@ -158,6 +166,8 @@ function updateLogInSave() {
     } else {
         checkbox.classList.remove('saveLogInCheck');
     }
+
+    return checkbox.checked;
 }
 
 function initialize() {
