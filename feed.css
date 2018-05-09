@@ -1,25 +1,3 @@
-.feed-add {
-    display:  flex;
-    align-items:  center;
-}
-
-.feed-add .input {
-    width: calc(100% - 84px);
-    height: 40px;
-}
-
-.feed-add .input textarea {
-    width: 100%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    height: 40px;
-    border: 1px solid #e7e7e7;
-    outline: none;
-    font-family:  helvetica;
-    padding: 5px;
-    resize: none;
-}
-
 .feed-login-content {
     display: flex;
     justify-content: center;
@@ -38,12 +16,6 @@
     flex: 2;
 }
 
-.feed-inputs input {
-    height: 35px;
-    margin: 5px;
-    outline: none;
-}
-
 .feed-login-btn {
     display: flex;
     flex-direction:  column;
@@ -58,6 +30,7 @@
     border-radius: 10px;
     cursor:  pointer;
     outline: none;
+    white-space: nowrap;
 }
 
 .feed-login-btn button:first-of-type {
@@ -77,32 +50,42 @@
     margin: 5px 0 2px 0;
 }
 
-
-.post-to-feed button {
-    background: #336699;
-    color:  #FFFFFF;
-    border: none;
-    height: 40px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    cursor: pointer;
-}
-
-.post-to-feed button:hover {
-    background: #245382;
-}
-
-.feed-post {
-    border: 1px solid #e7e7e7;
-    border-radius: 10px;
-    margin: 10px 0;
+.save-login {
+    align-items:  center;
     display:  flex;
+    justify-content:  center;
+    position:  absolute;
+    right: 5px;
+    top: 5px;
+    /* height: 15px; */
 }
 
-.feed-post div {
-    padding: 15px;
+.save-login div {
+    font-size:  0.75em;
+    color: #666666;
 }
 
-.feed-post .info {
-    border-right: 1px solid #e7e7e7;
+.save-login input {
+    position: relative;
+    z-index: 3;
+    margin: -2px 8px 0 0;
+    outline: none;
+}
+
+.save-login input::after {
+    position:  absolute;
+    z-index: 1;
+    width: 15px;
+    height: 15px;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    cursor: pointer;
+    content: '';
+}
+
+.saveLogInCheck::after {
+    content: '\2713' !important;
 }

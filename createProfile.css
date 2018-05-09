@@ -36,15 +36,17 @@
 }
 
 .create-profile-info {
+    margin-top: 20px;
+}
+
+.create-profile-info .input-container {
+    margin: 0 0 30px 0;
+}
+
+.create-profile-info {
     display:  flex;
     flex-direction:  column;
     width: 100%;
-}
-
-.create-profile-info input {
-    width: calc(100% - 40px);
-    height: 40px;
-    margin: 20px;
 }
 
 .create-profile-enter button {
@@ -62,5 +64,5 @@
 }
 
 .create-profile-enter button:hover {
-    background: #000000;
+    background: #245382;
 }

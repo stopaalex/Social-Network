@@ -2,6 +2,7 @@ const goHomeBtn = document.querySelector('#goHome');
 const logInCont = document.querySelector('#feedLoginContent');
 const newPostHTML = '<div class="feed-add"><div class="input"><textarea id="feedAddContent"></textarea></div><div class="post-to-feed"><button id="postToFeed">Post to feed</button></div></div>';
 const createProfileModal = document.querySelector('#createProfileModal');
+const saveLogInConfirm = document.querySelector('#saveLogInConfirm');
 var database,
     users = [],
     posts = [],
@@ -32,6 +33,7 @@ function initializeFirebase() {
  * @desc gets all of the users information
 */
 function getUserInfo() {
+    users = [];
     var ref = database.ref("users");
 
     ref.on("value", function(snapshot) {
@@ -75,18 +77,56 @@ function hideCreateProfileModal() {
     createProfileModal.style.display = 'none';
 }
 
-// /**
-//  * @name createNewUserProfile
-//  * @desc writes a new users data to the database
-// */
-// function createNewUserProfile() {
-//     firebase.database().ref('users/' + 12345678912).set({
-//         first_name: 'James',
-//         last_name: 'Dude',
-//         uniquer_ID: 12345678912,
-//         pass: testPass4
-//     });
-// }
+/**
+ * @name createNewUserProfile
+ * @desc writes a new users data to the database
+*/
+function createNewUserProfile() {
+    // COLLECT THE USER INPUT CONTENT
+    var firstName = document.querySelector('#createFirstName').value,
+        lastName = document.querySelector('#createLastName').value,
+        password = document.querySelector('#createPassword').value,
+        passwordCheck = document.querySelector('#createPasswordCheck').value,
+        uniqueID;
+    
+    // VALIDATE PASSWORDS
+    if (password !== passwordCheck) {
+        console.log('PASSWORDS DONT MATCH');
+        return;
+    }  else if (!firstName || !lastName || !password || !passwordCheck) {
+        console.log('MISSING DATA');
+    } else {
+        var numArray = [];
+        for (var i = 0; i < 11; i++) {
+            var num =  Math.floor(Math.random() * 9) + 0;
+            numArray.push(num);
+        }
+        uniqueID = numArray.map(function(number) {
+            return number;
+        }).join('');
+
+        firebase.database().ref('users/' + uniqueID).set({
+            unique_ID: uniqueID,
+            first_name: firstName,
+            last_name: lastName,
+            pass: password
+        });
+
+        getUserInfo();
+        users.forEach(function(user) {
+            if (user.unique_ID === uniqueID) {
+                // CLEAR OUT VALUES
+                firstName = '';
+                lastName = '';
+                password = '';
+                passwordCheck = '';
+                // HIDE THE MODAL
+                createProfileModal.style.display = 'none';
+                console.log('PROFILE CREATED');
+            }
+        });
+    }
+}
 
 /**
  * @name userLogIn
@@ -111,11 +151,22 @@ function userLogIn() {
     }
 }
 
+function updateLogInSave() {
+    var checkbox = document.querySelector('#saveLogInConfirm');
+    if (checkbox.checked) {
+        checkbox.classList.add('saveLogInCheck');
+    } else {
+        checkbox.classList.remove('saveLogInCheck');
+    }
+}
+
 function initialize() {
     createProfileModal.style.display = 'none';
 
     initializeFirebase();
 
+    saveLogInConfirm.addEventListener('change', updateLogInSave);
+    
     goHomeBtn.addEventListener('click', function () {
         location.href = 'index.html';
     });

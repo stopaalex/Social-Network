@@ -53,3 +53,57 @@ body {
   position: relative;
   z-index: 1;
 }
+
+button {
+  outline: none;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin-top: 5px;
+  position: relative
+}
+
+.input-container input {
+  position: absolute;
+  z-index: 1;
+  background: transparent;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-bottom: 2px solid #e7e7e7;
+  outline: none;
+  width: 100%;
+}
+
+.input-container .label {
+  position: relative;
+  width: 100%; 
+  top: 0px;
+  transition: 0.5s;
+  font-size: 14px;
+  color: #999999
+}
+
+.input-container input:focus ~ .label,
+.input-container input:valid ~ .label{
+  top: -20px;
+  transition: 0.5s;
+  font-size: 10px;
+}
+
+.one {
+  position: absolute;
+  width: 0px;
+  height: 2px;
+  background: #336699;
+  margin-top: 13px;
+  z-index: 1;
+  transition: 0.25s;
+}
+
+.input-container input:focus ~ .one {
+  width: 100%;
+}
