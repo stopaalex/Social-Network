@@ -46,6 +46,10 @@ function getUserInfo() {
     });
 }
 
+/**
+ * @name checkForSavedCreds
+ * @desc checks the local storage for saved credentials and then auto logs in
+ */
 function checkForSavedCreds() {
     var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
     if (savedCreds) {
@@ -79,10 +83,18 @@ function getPostsForFeed() {
     });
 }
 
+/**
+ * @name showCreateProfileModal
+ * @desc shows the create profile modal
+ */
 function showCreateProfileModal() {
     createProfileModal.style.display = 'flex';
 }
 
+/**
+ * @name hideCreateProfileModal
+ * @desc hides teh create profile modal
+ */
 function hideCreateProfileModal() {
     createProfileModal.style.display = 'none';
 }
@@ -169,6 +181,11 @@ function userLogIn() {
     }
 }
 
+/**
+ * @name updateLogInSave
+ * @desc checks for the save credential chekcbox
+ * @return {bool} bool that states if the check box ix checked or not
+ */
 function updateLogInSave() {
     var checkbox = document.querySelector('#saveLogInConfirm');
     if (checkbox.checked) {
@@ -180,6 +197,11 @@ function updateLogInSave() {
     return checkbox.checked;
 }
 
+/**
+ * @name autoLogIn
+ * @desc takes the local storagfe saved credentials and runs them through against the users to ensure the user exists and then 'logs in' and gets feed
+ * @param {object} credentials - credentials saved to the local storage
+ */
 function autoLogIn(credentials) {
     users = [];
     var ref = database.ref("users");
