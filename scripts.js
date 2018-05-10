@@ -63,6 +63,7 @@ function checkForSavedCreds() {
  * @desc gets all of the posts for the feed
 */
 function getPostsForFeed() {
+    posts = [];
     // Defining the reference to get data from the database
     var ref = database.ref("Posts");
     ref.on("value", function(snapshot) {
@@ -217,9 +218,11 @@ function autoLogIn(credentials) {
                 userLoggedIn = true;
                 document.querySelector('#feedAddContent').innerHTML = newPostHTML;
                 logInCont.style.display = 'none';
-                getPostsForFeed();
             }
         });
+        if (userLoggedIn) {
+            getPostsForFeed();
+        }
     });
 }
 
