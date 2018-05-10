@@ -7,7 +7,8 @@ var database,
     users = [],
     posts = [],
     activeUser,
-    userLoggedIn = false;
+    userLoggedIn = false,
+    userHasSavedCreds = false;
 
 // Hord coded in just to test functionality - not secure at all!!!
 var password = '';
@@ -26,6 +27,7 @@ function initializeFirebase() {
     database = firebase.database();
 
     getUserInfo();
+    checkForSavedCreds();
 }
 
 /**
@@ -42,6 +44,14 @@ function getUserInfo() {
             users.push(childSnapshot.val());
         });
     });
+}
+
+function checkForSavedCreds() {
+    var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
+    if (savedCreds) {
+        userHasSavedCreds = true;
+        autoLogIn(savedCreds);
+    }
 }
 
 /**
@@ -112,7 +122,6 @@ function createNewUserProfile() {
             pass: password
         });
 
-        getUserInfo();
         users.forEach(function(user) {
             if (user.unique_ID === uniqueID) {
                 // CLEAR OUT VALUES
@@ -133,8 +142,9 @@ function createNewUserProfile() {
  * @desc log in from the user
  */
 function userLogIn() {
-    var lastName = document.querySelector('#logInLastName').value;
-    var password = document.querySelector('#logInPassword').value;
+    var lastName, password;
+    lastName = document.querySelector('#logInLastName').value;
+    password = document.querySelector('#logInPassword').value;
 
     users.forEach(function(user) {
         if (lastName === user.last_name && password === user.pass) {
@@ -151,10 +161,10 @@ function userLogIn() {
     }
 
     if (updateLogInSave()) {
-        var SNCreds = [
-            {lastName: lastName},
-            {password: password}
-        ]
+        var SNCreds = {
+            lastName: lastName,
+            password: password
+    }
         window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
     }
 }
@@ -168,6 +178,27 @@ function updateLogInSave() {
     }
 
     return checkbox.checked;
+}
+
+function autoLogIn(credentials) {
+    users = [];
+    var ref = database.ref("users");
+
+    ref.on("value", function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            // console.log(childSnapshot.val());
+            users.push(childSnapshot.val());
+        });
+
+        users.forEach(function(user) {
+            if (credentials.lastName === user.last_name && credentials.password === user.pass) {
+                userLoggedIn = true;
+                document.querySelector('#feedAddContent').innerHTML = newPostHTML;
+                logInCont.style.display = 'none';
+                getPostsForFeed();
+            }
+        });
+    });
 }
 
 function initialize() {
