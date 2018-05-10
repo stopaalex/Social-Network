@@ -63,6 +63,18 @@
     justify-content:  center;
 }
 
-.create-profile-enter button:hover {
+.create-profile-enter button:hover,
+.create-profile-enter button:focus {
     background: #245382;
+}
+
+.create-profile-alert {
+    text-align: center;
+    color: red;
+    font-size: 0.8em;
+    /* padding: 10px; */
+    position: absolute;
+    bottom: 65px;
+    left: 0;
+    right: 0;
 }

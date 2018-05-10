@@ -1,5 +1,6 @@
 const goHomeBtn = document.querySelector('#goHome');
 const logInCont = document.querySelector('#feedLoginContent');
+const splashContent = document.querySelector('#feedWelcomeContent');
 const newPostHTML = '<div class="feed-add"><div class="input"><textarea id="feedAddContent"></textarea></div><div class="post-to-feed"><button id="postToFeed">Post to feed</button></div></div>';
 const createProfileModal = document.querySelector('#createProfileModal');
 const saveLogInConfirm = document.querySelector('#saveLogInConfirm');
@@ -80,6 +81,7 @@ function getPostsForFeed() {
             document.querySelector('#feedAddContent').innerHTML = newPostHTML;
             document.querySelector('#feedContent').innerHTML = feedHTML;
             logInCont.style.display = 'none';
+            splashContent.style.display = 'none';
         }
     });
 }
@@ -97,7 +99,13 @@ function showCreateProfileModal() {
  * @desc hides teh create profile modal
  */
 function hideCreateProfileModal() {
+    // HIDE THE MODAL AND CLEAR ALL THE DATA
     createProfileModal.style.display = 'none';
+    document.querySelector('#createFirstName').value = '',
+    document.querySelector('#createLastName').value = '',
+    document.querySelector('#createPassword').value = '',
+    document.querySelector('#createPasswordCheck').value = '',
+    document.querySelector('#createProfileAlert').textContent = null;
 }
 
 /**
@@ -106,7 +114,8 @@ function hideCreateProfileModal() {
 */
 function createNewUserProfile() {
     // COLLECT THE USER INPUT CONTENT
-    var firstName = document.querySelector('#createFirstName').value,
+    var alertTextContainer = document.querySelector('#createProfileAlert'),
+        firstName = document.querySelector('#createFirstName').value,
         lastName = document.querySelector('#createLastName').value,
         password = document.querySelector('#createPassword').value,
         passwordCheck = document.querySelector('#createPasswordCheck').value,
@@ -115,9 +124,11 @@ function createNewUserProfile() {
     // VALIDATE PASSWORDS
     if (password !== passwordCheck) {
         console.log('PASSWORDS DONT MATCH');
+        alertTextContainer.textContent = '* Passwords Do Not Match';
         return;
     }  else if (!firstName || !lastName || !password || !passwordCheck) {
         console.log('MISSING DATA');
+        alertTextContainer.textContent = '* Your\'re Missing Info';
     } else {
         var numArray = [];
         for (var i = 0; i < 11; i++) {
@@ -144,6 +155,7 @@ function createNewUserProfile() {
                 passwordCheck = '';
                 // HIDE THE MODAL
                 createProfileModal.style.display = 'none';
+                alertTextContainer.textContent = null;
                 console.log('PROFILE CREATED');
             }
         });

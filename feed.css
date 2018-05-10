@@ -6,14 +6,16 @@
 }
 .feed-login {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    width: 60%;
+    width: 80%;
 }
 
 .feed-inputs {
     display: flex;
     flex-direction: column;
     flex: 2;
+    min-width: 300px;
 }
 
 .feed-login-btn {
@@ -21,6 +23,7 @@
     flex-direction:  column;
     align-items: center;
     flex: 1;
+    min-width: 200px;
 }
 
 .feed-login-btn button {
