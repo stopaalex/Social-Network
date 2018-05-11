@@ -48,16 +48,18 @@ body {
 
 .body {
   width: calc(100vw - 200px);
-  min-height: 100vh;
+  /* min-height: 100vh; */
   margin: 75px 100px 0 100px;
-  position: relative;
+  /* position: relative; */
   z-index: 1;
 }
 
+/* BUTTON STYLING */
 button {
   outline: none;
 }
 
+/* INPUT CONTAINER STYLING */
 .input-container {
   display: flex;
   justify-content: center;
@@ -83,7 +85,7 @@ button {
   width: 100%; 
   top: 0px;
   transition: 0.5s;
-  font-size: 14px;
+  font-size: 1em;
   color: #999999
 }
 

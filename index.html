@@ -38,9 +38,9 @@
         <!-- NEW POST CONTENT GOES HERE IF USER IS LOGGED IN -->
       </div>
 
+      <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
       <div class="feed-login-content"
            id="feedLoginContent">
-        <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
         <div class="feed-login">
           <div class="feed-inputs">
             <div class="input-container">
@@ -71,9 +71,23 @@
           </div>
         </div>
       </div>
-      <div class="feed-welcome-Content" id="feedWelcomeContent">
-        HELLO, WORLD!
+      <div class="feed-welcome-content" id="feedWelcomeContent">
+        <div class="welcome-text">
+          <div class="welcome-to">
+            Welcome to the
+          </div>
+          <div class="name">
+            <div>SOCIAL</div>
+            <div>network</div>
+          </div>
+        </div>
+        <div class="overlay"></div>
+        <div class="welcome-image">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Social_Network_Analysis_Visualization.png">
+        </div>
       </div>
+      <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
+
       <div class="feed-content"
            id="feedContent"></div>
       <!-- POSTS WILL SHOW UP HERE -->
@@ -119,6 +133,10 @@
           <span class="one"></span>
           <label class="label">Re-enter Password</label>
         </div>
+      </div>
+      <div class="picture-select">
+        <input type="file" id="pictureUpload">
+        <label for="pictureUpload">Choose a Photo</label>
       </div>
       <div class="create-profile-enter">
         <button onclick="createNewUserProfile()">Create Profile</button>

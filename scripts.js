@@ -5,6 +5,7 @@ const newPostHTML = '<div class="feed-add"><div class="input"><textarea id="feed
 const createProfileModal = document.querySelector('#createProfileModal');
 const saveLogInConfirm = document.querySelector('#saveLogInConfirm');
 var database,
+    storage,
     users = [],
     posts = [],
     activeUser,
@@ -27,8 +28,9 @@ function initializeFirebase() {
 
     database = firebase.database();
 
+    storage = firebase.storage();
+
     getUserInfo();
-    checkForSavedCreds();
 }
 
 /**
@@ -39,11 +41,13 @@ function getUserInfo() {
     users = [];
     var ref = database.ref("users");
 
-    ref.on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
+    ref.once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
             // console.log(childSnapshot.val());
             users.push(childSnapshot.val());
         });
+
+        checkForSavedCreds();
     });
 }
 
@@ -60,6 +64,24 @@ function checkForSavedCreds() {
 }
 
 /**
+ * @name autoLogIn
+ * @desc takes the local storagfe saved credentials and runs them through against the users to ensure the user exists and then 'logs in' and gets feed
+ * @param {object} credentials - credentials saved to the local storage
+ */
+function autoLogIn(credentials) {
+    users.forEach(function (user) {
+        if (credentials.lastName === user.last_name && credentials.password === user.pass) {
+            userLoggedIn = true;
+            document.querySelector('#feedAddContent').innerHTML = newPostHTML;
+            logInCont.style.display = 'none';
+        }
+    });
+    if (userLoggedIn) {
+        getPostsForFeed();
+    }
+}
+
+/**
  * @name getPostsForFeed
  * @desc gets all of the posts for the feed
 */
@@ -67,11 +89,11 @@ function getPostsForFeed() {
     posts = [];
     // Defining the reference to get data from the database
     var ref = database.ref("Posts");
-    ref.on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
+    ref.on("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
             posts.push(childSnapshot.val());
         });
-        var feedHTML = posts.map(function(post) {
+        var feedHTML = posts.map(function (post) {
             var poster = post.poster;
             var text_content = post.text_content;
             return '<div class="feed-post"><div class="info">' + poster + '</div><div class="text">' + text_content + '</div></div>';
@@ -102,10 +124,10 @@ function hideCreateProfileModal() {
     // HIDE THE MODAL AND CLEAR ALL THE DATA
     createProfileModal.style.display = 'none';
     document.querySelector('#createFirstName').value = '',
-    document.querySelector('#createLastName').value = '',
-    document.querySelector('#createPassword').value = '',
-    document.querySelector('#createPasswordCheck').value = '',
-    document.querySelector('#createProfileAlert').textContent = null;
+        document.querySelector('#createLastName').value = '',
+        document.querySelector('#createPassword').value = '',
+        document.querySelector('#createPasswordCheck').value = '',
+        document.querySelector('#createProfileAlert').textContent = null;
 }
 
 /**
@@ -120,25 +142,28 @@ function createNewUserProfile() {
         password = document.querySelector('#createPassword').value,
         passwordCheck = document.querySelector('#createPasswordCheck').value,
         uniqueID;
-    
+
     // VALIDATE PASSWORDS
     if (password !== passwordCheck) {
         console.log('PASSWORDS DONT MATCH');
         alertTextContainer.textContent = '* Passwords Do Not Match';
         return;
-    }  else if (!firstName || !lastName || !password || !passwordCheck) {
+    // CHECK FOR CONTENTS IN FIRST, LAST, PASS, AND PASSCHECK BEFORE UPLOADING
+    } else if (!firstName || !lastName || !password || !passwordCheck) {
         console.log('MISSING DATA');
         alertTextContainer.textContent = '* Your\'re Missing Info';
     } else {
+        // CREATING UNIQUE ID WITH 11 RANDOM NUMBERS
         var numArray = [];
         for (var i = 0; i < 11; i++) {
-            var num =  Math.floor(Math.random() * 9) + 0;
+            var num = Math.floor(Math.random() * 9) + 0;
             numArray.push(num);
         }
-        uniqueID = numArray.map(function(number) {
+        uniqueID = numArray.map(function (number) {
             return number;
         }).join('');
 
+        // PUSH THE DATA TO THE DATABASE
         firebase.database().ref('users/' + uniqueID).set({
             unique_ID: uniqueID,
             first_name: firstName,
@@ -146,13 +171,24 @@ function createNewUserProfile() {
             pass: password
         });
 
-        users.forEach(function(user) {
+        // GET TEH SELECTED FILE AND PUSH TO STORAGE
+        var picturePath = document.querySelector('#pictureUpload');
+        var pictureFile = picturePath.files[0];
+        var storageRef = storage.ref(firstName + '_' + lastName + '_' + uniqueID);
+        if (pictureFile) {
+            storageRef.put(pictureFile);
+        }
+
+        // CHECK TO ENSURE NEW USER WAS CREATED AND THEN CLEAR INPUTS
+        users.forEach(function (user) {
             if (user.unique_ID === uniqueID) {
                 // CLEAR OUT VALUES
                 firstName = '';
                 lastName = '';
                 password = '';
                 passwordCheck = '';
+                picturePath = null;
+                pictureFile = null;
                 // HIDE THE MODAL
                 createProfileModal.style.display = 'none';
                 alertTextContainer.textContent = null;
@@ -161,7 +197,6 @@ function createNewUserProfile() {
         });
     }
 }
-
 /**
  * @name userLogIn
  * @desc log in from the user
@@ -170,8 +205,8 @@ function userLogIn() {
     var lastName, password;
     lastName = document.querySelector('#logInLastName').value;
     password = document.querySelector('#logInPassword').value;
-
-    users.forEach(function(user) {
+    debugger
+    users.forEach(function (user) {
         if (lastName === user.last_name && password === user.pass) {
             userLoggedIn = true;
             document.querySelector('#feedAddContent').innerHTML = newPostHTML;
@@ -189,7 +224,7 @@ function userLogIn() {
         var SNCreds = {
             lastName: lastName,
             password: password
-    }
+        }
         window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
     }
 }
@@ -210,41 +245,13 @@ function updateLogInSave() {
     return checkbox.checked;
 }
 
-/**
- * @name autoLogIn
- * @desc takes the local storagfe saved credentials and runs them through against the users to ensure the user exists and then 'logs in' and gets feed
- * @param {object} credentials - credentials saved to the local storage
- */
-function autoLogIn(credentials) {
-    users = [];
-    var ref = database.ref("users");
-
-    ref.on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            // console.log(childSnapshot.val());
-            users.push(childSnapshot.val());
-        });
-
-        users.forEach(function(user) {
-            if (credentials.lastName === user.last_name && credentials.password === user.pass) {
-                userLoggedIn = true;
-                document.querySelector('#feedAddContent').innerHTML = newPostHTML;
-                logInCont.style.display = 'none';
-            }
-        });
-        if (userLoggedIn) {
-            getPostsForFeed();
-        }
-    });
-}
-
 function initialize() {
     createProfileModal.style.display = 'none';
 
     initializeFirebase();
 
     saveLogInConfirm.addEventListener('change', updateLogInSave);
-    
+
     goHomeBtn.addEventListener('click', function () {
         location.href = 'index.html';
     });

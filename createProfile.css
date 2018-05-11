@@ -43,6 +43,29 @@
     margin: 0 0 30px 0;
 }
 
+.picture-select input {
+    position: relative;
+    left: 46px;
+    padding-top: 2px;
+    outline: none;
+}
+
+.picture-select label {
+    position:  absolute;
+    left: 20px;
+    border: 1px solid #e7e7e7;
+    background: #FFFFFF;
+    border-radius: 5px;
+    padding: 3px 15px;
+    font-size: 0.9em;
+    color: #999999;
+    cursor:  pointer;
+}
+
+.picture-select label:hover {
+    background: #f2f2f2;
+}
+
 .create-profile-info {
     display:  flex;
     flex-direction:  column;
