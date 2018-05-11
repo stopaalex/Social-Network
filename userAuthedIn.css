@@ -36,6 +36,8 @@
 
 .home-welcome-authenticated {
     flex-direction: column;
+    overflow: auto;
+    height: calc(100vh - 90px);
 }
 
 /***** NEW POST CONTENT *****/

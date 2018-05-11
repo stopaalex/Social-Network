@@ -350,11 +350,6 @@ function getPostsForFeed() {
         snapshot.forEach(function (childSnapshot) {
             posts.push(childSnapshot.val());
         });
-
-        posts.forEach(function(post) {
-            console.log(post.date);
-        })
-
        
         posts.sort(function (a, b) {
             if (a.date > b.date) {
@@ -364,14 +359,13 @@ function getPostsForFeed() {
             } else {
                 return 0
             }
-            // return a.date > b.date ? 1 : b.date > a.date ? -1 : 0;
           });  
  
 
         var feedHTML = posts.map(function (post) {
             var poster = post.poster;
             var text_content = post.text_content;
-            return '<div class="feed-post"><div class="info">' + poster.firstName + '</div><div class="text">' + text_content + '</div></div>';
+            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img src="' + post.poster.imgLocation+ '"/></div><div class="feed-post-text">' + post.poster.firstName + ' ' + post.poster.lastName + '</div></div><div class="text">' + text_content + '</div></div>';
         }).join('');
 
         feedContent.innerHTML = feedHTML;
