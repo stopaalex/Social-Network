@@ -34,6 +34,10 @@
     width: 100%;
 }
 
+.home-welcome-authenticated {
+    flex-direction: column;
+}
+
 /***** NEW POST CONTENT *****/
 #welcomeUserContent {
     display:  flex;

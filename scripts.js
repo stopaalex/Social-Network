@@ -24,7 +24,8 @@ var database,
     posts = [],
     activeUser,
     userLoggedIn = false,
-    userHasSavedCreds = false;
+    userHasSavedCreds = false,
+    activeUserPersona;
 
 // // // // // // /
 // FUNCTIONS // //
@@ -305,38 +306,36 @@ function getLoggedInUserInfo() {
     welcomeAuthed.style.display = 'flex';
 
     updateUserInfo();
+    // PUSHING EVERYTHING INTO THIS TIMEOUT BC I CURRENTLY DONT KNOW HOW
+    // TO GET PAST THE ASYNC CALL SO IM JUST WAITING 1S BEOFRE RUNNING THE OTHER FUNCTIONS
     setTimeout(function() {
+        createActiveUserPersona();
         createWelcomeContent();
+        getPostsForFeed();
     }, 1000);
-    // createWelcomeContent();
-    // welcomeUserContent.innerHTML = createWelcomeContent();
 
-    getPostsForFeed();
+
 }
 
-function createWelcomeContent() {
-    var activeUserInfo = {
-        firstName: '',
-        lastName: '',
-        imgLocation: ''
-    }
-        
+function createActiveUserPersona() {
     users.forEach(function(user) {
         if (activeUser === user.unique_ID) {
-            activeUserInfo = {
+            activeUserPersona = {
                 firstName: user.first_name,
                 lastName: user.last_name,
                 imgLocation: 'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/' + user.first_name + '_' + user.last_name + '_' + user.unique_ID + '?alt=media&token=2133d104-6d2b-419c-b9d5-93c3bbdac05f',
             }
         }
     });
+}
+
+function createWelcomeContent() {    
     cornerProfImg.style.display = 'flex';
 
-    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserInfo.firstName + '</div><div class="user-img"><img src="' + activeUserInfo.imgLocation + '"/><div>';
+    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img"><img src="' + activeUserPersona.imgLocation + '"/><div>';
 
-    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img src="' +activeUserInfo.imgLocation+ '"/></div></div><div class="welcome-new-post-text"><textarea placeholder="Whatcha thinkin\' about, ' + activeUserInfo.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="postToFeed()">Post to Feed</button></div></div>';
+    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img src="' +activeUserPersona.imgLocation+ '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
 
-    // console.log(activeUserInfo);
 }
 
 /**
@@ -351,17 +350,65 @@ function getPostsForFeed() {
         snapshot.forEach(function (childSnapshot) {
             posts.push(childSnapshot.val());
         });
-        // var feedHTML = posts.map(function (post) {
-        //     var poster = post.poster;
-        //     var text_content = post.text_content;
-        //     return '<div class="feed-post"><div class="info">' + poster + '</div><div class="text">' + text_content + '</div></div>';
-        // }).join('');
 
-        // if (userLoggedIn) {
-        //     document.querySelector('#feedAddContent').innerHTML = newPostHTML;
-        //     document.querySelector('#feedContent').innerHTML = feedHTML;
-        // }
+        posts.forEach(function(post) {
+            console.log(post.date);
+        })
+
+       
+        posts.sort(function (a, b) {
+            if (a.date > b.date) {
+                return -1
+            } else if (a.date < b.date) {
+                return 1;
+            } else {
+                return 0
+            }
+            // return a.date > b.date ? 1 : b.date > a.date ? -1 : 0;
+          });  
+ 
+
+        var feedHTML = posts.map(function (post) {
+            var poster = post.poster;
+            var text_content = post.text_content;
+            return '<div class="feed-post"><div class="info">' + poster.firstName + '</div><div class="text">' + text_content + '</div></div>';
+        }).join('');
+
+        feedContent.innerHTML = feedHTML;
     });
+}
+
+function pushToFeed() {
+    // CREATING UNIQUE ID WITH 11 RANDOM NUMBERS
+    var uniqueID;
+    var numArray = [];
+    for (var i = 0; i < 20; i++) {
+        var num = Math.floor(Math.random() * 9) + 0;
+        numArray.push(num);
+    }
+    uniqueID = numArray.map(function (number) {
+        return number;
+    }).join('');
+
+    var newPostContent = document.querySelector('#newPostContent').value;
+
+    if (!newPostContent) {
+        console.log('YOU NEED CONTENT');
+        return
+    }
+    // PUSH THE DATA TO THE DATABASE
+    firebase.database().ref('Posts/' + uniqueID).set({
+        date: firebase.database.ServerValue.TIMESTAMP,
+        poster: activeUserPersona,
+        poster_Id: activeUser,
+        post_ID: uniqueID,
+        text_content: newPostContent
+    });
+
+    document.querySelector('#newPostContent').value = '';
+    setTimeout(function() {
+        getPostsForFeed();
+    }, 250);
 }
 
 function initialize() {
