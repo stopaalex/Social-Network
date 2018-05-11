@@ -1,4 +1,4 @@
-.feed-login-content {
+.welcome-login-content {
     position: relative;
     display: flex;
     justify-content: center;
@@ -7,7 +7,7 @@
     margin-top: -20px;
     border-bottom: 1px solid #e7e7e7;
 }
-.feed-login {
+.welcome-login {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -15,14 +15,14 @@
     max-width: 800px;
 }
 
-.feed-inputs {
+.welcome-inputs {
     display: flex;
     flex-direction: column;
     flex: 2;
     min-width: 300px;
 }
 
-.feed-login-btn {
+.welcome-login-btn {
     display: flex;
     flex-direction:  column;
     align-items: center;
@@ -30,7 +30,7 @@
     min-width: 200px;
 }
 
-.feed-login-btn button {
+.welcome-login-btn button {
     width: 100px;
     border: none;
     padding: 10px;
@@ -40,19 +40,19 @@
     white-space: nowrap;
 }
 
-.feed-login-btn button:first-of-type {
+.welcome-login-btn button:first-of-type {
     background: #336699;
     color: #FFFFFF;
 }
 
-.feed-login-btn button:hover {
+.welcome-login-btn button:hover {
     background: #e7e7e7;
 }
-.feed-login-btn button:first-of-type:hover {
+.welcome-login-btn button:first-of-type:hover {
     background: #245382;
 }
 
-.feed-login-btn div {
+.welcome-login-btn div {
     font-size: 10px;
     margin: 5px 0 2px 0;
 }
@@ -100,7 +100,7 @@
 }
 
 /* WELCOME SPLASH SCREEN */
-.feed-welcome-content {
+.welcome-welcome-content {
     position:  absolute;
     left: 0;
     /*     border: 1px dashed blue; */
