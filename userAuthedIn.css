@@ -33,3 +33,69 @@
 .welcome-corner-profile .user-img img {
     width: 100%;
 }
+
+/***** NEW POST CONTENT *****/
+#welcomeUserContent {
+    display:  flex;
+    width: 100%;
+    border: 1px solid #e7e7e7;
+    position: relative;
+}
+
+.welcome-img {
+    width: 60px;
+    height: 60px;
+    overflow:  hidden;
+    border-radius:  100%;
+    display:  flex;
+    justify-content:  center;
+    align-items:  center;
+}
+
+.welcome-img img {
+    width: 120%;
+}
+
+.welcome-left {
+    flex: 1;
+    display:  flex;
+    justify-content:  center;
+    align-items:  center;
+    background: #f2f2f2;
+}
+
+.welcome-user-container {
+    width: 100%;
+}
+
+.welcome-new-post-text {
+    flex: 4;
+}
+
+.welcome-new-post-text textarea {
+    width: 100%;
+    height: 80px;
+    resize:  none;
+    padding: 10px;
+    display:  flex;
+    border: none;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.post-to-feed-btn {
+    position:  absolute;
+    right: 5px;
+    bottom:  5px;
+}
+
+.active-textarea-underline {
+    height: 2px;
+    width: 0;
+    background: #336699;
+    transition: 250ms;
+}
+
+.welcome-new-post-text textarea:focus ~ .active-textarea-underline {
+    width: 100%;
+}

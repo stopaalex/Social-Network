@@ -331,8 +331,10 @@ function createWelcomeContent() {
         }
     });
     cornerProfImg.style.display = 'flex';
-    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserInfo.firstName + '</div><div class="user-img"><img src="' + activeUserInfo.imgLocation + '"/><div>'
-    welcomeUserContent.innerHTML = '<div>Welcome to the SOCIALnetwork ' + activeUserInfo.firstName+ '!</div>';
+
+    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserInfo.firstName + '</div><div class="user-img"><img src="' + activeUserInfo.imgLocation + '"/><div>';
+
+    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img src="' +activeUserInfo.imgLocation+ '"/></div></div><div class="welcome-new-post-text"><textarea placeholder="Whatcha thinkin\' about, ' + activeUserInfo.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="postToFeed()">Post to Feed</button></div></div>';
 
     // console.log(activeUserInfo);
 }
