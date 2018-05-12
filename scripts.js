@@ -187,7 +187,7 @@ function createNewUserProfile() {
         var picturePath = document.querySelector('#pictureUpload');
         var pictureFile = picturePath.files[0];
         var storageRef = storage.ref(firstName + '_' + lastName + '_' + uniqueID);
-        if (pictureFile) {
+        if (pictureFile && picturePath) {
             storageRef.put(pictureFile);
         }
 
@@ -217,7 +217,7 @@ function createNewUserProfile() {
             });
         });
 
-        // CHECK TO ENSURE NEW USER WAS CREATED AND THEN CLEAR INPUTS
+        hideCreateProfileModal();
     }
 }
 
@@ -332,9 +332,9 @@ function createActiveUserPersona() {
 function createWelcomeContent() {    
     cornerProfImg.style.display = 'flex';
 
-    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img"><img src="' + activeUserPersona.imgLocation + '"/><div>';
+    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/><div>';
 
-    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img src="' +activeUserPersona.imgLocation+ '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
+    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img  onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' +activeUserPersona.imgLocation+ '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
 
 }
 
@@ -365,7 +365,7 @@ function getPostsForFeed() {
         var feedHTML = posts.map(function (post) {
             var poster = post.poster;
             var text_content = post.text_content;
-            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img src="' + post.poster.imgLocation+ '"/></div><div class="feed-post-text">' + post.poster.firstName + ' ' + post.poster.lastName + '</div></div><div class="text">' + text_content + '</div></div>';
+            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation+ '"/></div><div class="feed-post-text">' + post.poster.firstName + ' ' + post.poster.lastName + '</div></div><div class="text">' + text_content + '</div></div>';
         }).join('');
 
         feedContent.innerHTML = feedHTML;
