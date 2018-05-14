@@ -92,11 +92,11 @@ function updateUserInfo() {
  * @desc checks the local storage for saved credentials and then auto logs in
  */
 function checkForSavedCreds() {
-    var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
-    if (savedCreds) {
-        userHasSavedCreds = true;
-        autoLogIn(savedCreds);
-    }
+    // var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
+    // if (savedCreds) {
+    //     userHasSavedCreds = true;
+    //     autoLogIn(savedCreds);
+    // }
 }
 
 /**
@@ -276,7 +276,8 @@ function userLogIn() {
             lastName: lastName,
             password: password
         }
-        window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
+        // window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
+        console.log('SHOULD SAVE CREDS')
     }
 }
 
