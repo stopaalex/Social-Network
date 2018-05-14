@@ -106,7 +106,7 @@ function checkForSavedCreds() {
  */
 function autoLogIn(credentials) {
     users.forEach(function (user) {
-        if (credentials.lastName === user.last_name && credentials.password === user.pass) {
+        if (credentials.email === user.email && credentials.password === user.pass) {
             userLoggedIn = true;
             activeUser = user.unique_ID;
             // document.querySelector('#feedAddContent').innerHTML = newPostHTML;
@@ -136,10 +136,11 @@ function hideCreateProfileModal() {
     // HIDE THE MODAL AND CLEAR ALL THE DATA
     createProfileModal.style.display = 'none';
     document.querySelector('#createFirstName').value = '',
-        document.querySelector('#createLastName').value = '',
-        document.querySelector('#createPassword').value = '',
-        document.querySelector('#createPasswordCheck').value = '',
-        document.querySelector('#createProfileAlert').textContent = null;
+    document.querySelector('#createLastName').value = '',
+    document.querySelector('#createEmail').value = '';
+    document.querySelector('#createPassword').value = '',
+    document.querySelector('#createPasswordCheck').value = '',
+    document.querySelector('#createProfileAlert').textContent = null;
 }
 
 /**
@@ -151,10 +152,11 @@ function createNewUserProfile() {
     var alertTextContainer = document.querySelector('#createProfileAlert'),
         firstName = document.querySelector('#createFirstName').value,
         lastName = document.querySelector('#createLastName').value,
+        email = document.querySelector('#createEmail').value,
         password = document.querySelector('#createPassword').value,
         passwordCheck = document.querySelector('#createPasswordCheck').value,
         uniqueID;
-
+        
     // VALIDATE PASSWORDS
     if (password !== passwordCheck) {
         console.log('PASSWORDS DONT MATCH');
@@ -180,6 +182,7 @@ function createNewUserProfile() {
             unique_ID: uniqueID,
             first_name: firstName,
             last_name: lastName,
+            email: email,
             pass: password
         });
 
@@ -198,13 +201,14 @@ function createNewUserProfile() {
                 users.push(childSnapshot.val());
             });
 
-            logInFromCreation(lastName, password);
+            logInFromCreation(email, password);
 
             users.forEach(function (user) {
                 if (user.unique_ID === uniqueID) {
                     // CLEAR OUT VALUES
                     firstName = '';
                     lastName = '';
+                    email = '';
                     password = '';
                     passwordCheck = '';
                     picturePath = null;
@@ -227,9 +231,9 @@ function createNewUserProfile() {
  * @param {string} lastName 
  * @param {string} password 
  */
-function logInFromCreation(lastName, password) {
+function logInFromCreation(email, password) {
     users.forEach(function (user) {
-        if (lastName === user.last_name && password === user.pass) {
+        if (email === user.email && password === user.pass) {
             userLoggedIn = true;
             activeUser = user.unique_ID;
             // document.querySelector('#feedAddContent').innerHTML = newPostHTML;
@@ -252,10 +256,11 @@ function logInFromCreation(lastName, password) {
  */
 function userLogIn() {
     var lastName, password;
-    lastName = document.querySelector('#logInLastName').value;
+    email = document.querySelector('#logInEmail').value;
+    // lastName = document.querySelector('#logInLastName').value;
     password = document.querySelector('#logInPassword').value;
     users.forEach(function (user) {
-        if (lastName === user.last_name && password === user.pass) {
+        if (email === user.email && password === user.pass) {
             userLoggedIn = true;
             activeUser = user.unique_ID;
             // document.querySelector('#feedAddContent').innerHTML = newPostHTML;
@@ -273,7 +278,7 @@ function userLogIn() {
 
     if (updateLogInSave()) {
         var SNCreds = {
-            lastName: lastName,
+            email: email,
             password: password
         }
         // window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
@@ -309,7 +314,7 @@ function getLoggedInUserInfo() {
     updateUserInfo();
     // PUSHING EVERYTHING INTO THIS TIMEOUT BC I CURRENTLY DONT KNOW HOW
     // TO GET PAST THE ASYNC CALL SO IM JUST WAITING 1S BEOFRE RUNNING THE OTHER FUNCTIONS
-    setTimeout(function() {
+    setTimeout(function () {
         createActiveUserPersona();
         createWelcomeContent();
         getPostsForFeed();
@@ -319,23 +324,24 @@ function getLoggedInUserInfo() {
 }
 
 function createActiveUserPersona() {
-    users.forEach(function(user) {
+    users.forEach(function (user) {
         if (activeUser === user.unique_ID) {
             activeUserPersona = {
                 firstName: user.first_name,
                 lastName: user.last_name,
+                email: user.email,
                 imgLocation: 'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/' + user.first_name + '_' + user.last_name + '_' + user.unique_ID + '?alt=media&token=2133d104-6d2b-419c-b9d5-93c3bbdac05f',
             }
         }
     });
 }
 
-function createWelcomeContent() {    
+function createWelcomeContent() {
     cornerProfImg.style.display = 'flex';
 
     cornerProfImg.innerHTML = '<div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/><div>';
 
-    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img  onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' +activeUserPersona.imgLocation+ '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
+    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img  onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
 
 }
 
@@ -351,7 +357,7 @@ function getPostsForFeed() {
         snapshot.forEach(function (childSnapshot) {
             posts.push(childSnapshot.val());
         });
-       
+
         posts.sort(function (a, b) {
             if (a.date > b.date) {
                 return -1
@@ -360,13 +366,13 @@ function getPostsForFeed() {
             } else {
                 return 0
             }
-          });  
- 
+        });
+
 
         var feedHTML = posts.map(function (post) {
             var poster = post.poster;
             var text_content = post.text_content;
-            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation+ '"/></div><div class="feed-post-text">' + post.poster.firstName + ' ' + post.poster.lastName + '</div></div><div class="text">' + text_content + '</div></div>';
+            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation + '"/></div><div class="feed-post-text">' + post.poster.firstName + ' ' + post.poster.lastName + '</div></div><div class="text">' + text_content + '</div></div>';
         }).join('');
 
         feedContent.innerHTML = feedHTML;
@@ -401,7 +407,7 @@ function pushToFeed() {
     });
 
     document.querySelector('#newPostContent').value = '';
-    setTimeout(function() {
+    setTimeout(function () {
         getPostsForFeed();
     }, 250);
 }
