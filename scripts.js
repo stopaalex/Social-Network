@@ -155,7 +155,15 @@ function createNewUserProfile() {
         email = document.querySelector('#createEmail').value,
         password = document.querySelector('#createPassword').value,
         passwordCheck = document.querySelector('#createPasswordCheck').value,
-        uniqueID;
+        uniqueID,
+        uniqueEmail = true;
+
+    // CHECK FOR EMAIL ALREADY IN USE
+    users.forEach(function(user) {
+        if (user.email === email) {
+            uniqueEmail = false;
+        }
+    });
         
     // VALIDATE PASSWORDS
     if (password !== passwordCheck) {
@@ -166,6 +174,9 @@ function createNewUserProfile() {
     } else if (!firstName || !lastName || !password || !passwordCheck) {
         console.log('MISSING DATA');
         alertTextContainer.textContent = '* Your\'re Missing Info';
+    } else if (!uniqueEmail) {
+        console.log('NON UNIQUE EMAIL');
+        alertTextContainer.textContent = '* E-mail is already in use';
     } else {
         // CREATING UNIQUE ID WITH 11 RANDOM NUMBERS
         var numArray = [];
@@ -183,7 +194,7 @@ function createNewUserProfile() {
             first_name: firstName,
             last_name: lastName,
             email: email,
-            pass: password
+            pass: password  
         });
 
         // GET TEH SELECTED FILE AND PUSH TO STORAGE
