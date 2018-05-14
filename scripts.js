@@ -92,11 +92,11 @@ function updateUserInfo() {
  * @desc checks the local storage for saved credentials and then auto logs in
  */
 function checkForSavedCreds() {
-    // var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
-    // if (savedCreds) {
-    //     userHasSavedCreds = true;
-    //     autoLogIn(savedCreds);
-    // }
+    var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
+    if (savedCreds) {
+        userHasSavedCreds = true;
+        autoLogIn(savedCreds);
+    }
 }
 
 /**
@@ -292,7 +292,7 @@ function userLogIn() {
             email: email,
             password: password
         }
-        // window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
+        window.localStorage.setItem('SNCreds', JSON.stringify(SNCreds));
         console.log('SHOULD SAVE CREDS')
     }
 }
@@ -381,9 +381,9 @@ function getPostsForFeed() {
 
 
         var feedHTML = posts.map(function (post) {
-            var poster = post.poster;
-            var text_content = post.text_content;
-            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation + '"/></div><div class="feed-post-text">' + post.poster.firstName + ' ' + post.poster.lastName + '</div></div><div class="text">' + text_content + '</div></div>';
+            var poster = post.poster,
+                text_content = post.text_content;
+            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation + '"/></div><div class="feed-post-text"><div class="feed-post-name">' + post.poster.firstName + ' ' + post.poster.lastName + '</div><div class="feed-post-date">' + post.date_string + '</div></div></div><div class="text">' + text_content + '</div><div class="feed-border"></div></div>';
         }).join('');
 
         feedContent.innerHTML = feedHTML;
@@ -392,8 +392,8 @@ function getPostsForFeed() {
 
 function pushToFeed() {
     // CREATING UNIQUE ID WITH 11 RANDOM NUMBERS
-    var uniqueID;
-    var numArray = [];
+    var uniqueID,
+        numArray = [];
     for (var i = 0; i < 20; i++) {
         var num = Math.floor(Math.random() * 9) + 0;
         numArray.push(num);
@@ -401,6 +401,11 @@ function pushToFeed() {
     uniqueID = numArray.map(function (number) {
         return number;
     }).join('');
+
+    var datePlaceHolder = new Date,
+        time = datePlaceHolder.getHours() + ':' + datePlaceHolder.getMinutes(),
+        date = datePlaceHolder.getMonth() + '/' + datePlaceHolder.getMonth() + '/' + datePlaceHolder.getFullYear(),
+        dateString = (date  + ' ' + time).toString();
 
     var newPostContent = document.querySelector('#newPostContent').value;
 
@@ -411,6 +416,7 @@ function pushToFeed() {
     // PUSH THE DATA TO THE DATABASE
     firebase.database().ref('Posts/' + uniqueID).set({
         date: firebase.database.ServerValue.TIMESTAMP,
+        date_string: dateString,
         poster: activeUserPersona,
         poster_Id: activeUser,
         post_ID: uniqueID,
