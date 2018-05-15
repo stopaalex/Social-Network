@@ -50,7 +50,7 @@ function getUserInfo() {
 
         selectedProfile.pictue = 'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/' + selectedProfile.first_name + '_' + selectedProfile.last_name + '_' + selectedProfile.unique_ID + '?alt=media&token=2133d104-6d2b-419c-b9d5-93c3bbdac05f';
 
-        console.log(selectedProfile);
+        // console.log(selectedProfile);
 
     });
 }
