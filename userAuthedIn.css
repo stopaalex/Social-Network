@@ -34,6 +34,20 @@
     width: 100%;
 }
 
+.welcome-corner-profile .user-sign-out {
+    padding: 0px 10px;
+    margin: 0 5px;
+    font-size: 0.75em;
+    cursor:  pointer;
+    border-radius: 5px;
+    color: #666666;
+}
+
+.welcome-corner-profile .user-sign-out:hover {
+    background: #f2f2f2;
+    color: #000000;
+}
+
 .home-welcome-authenticated {
     flex-direction: column;
     overflow: auto;

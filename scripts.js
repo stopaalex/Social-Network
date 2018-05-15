@@ -297,6 +297,16 @@ function userLogIn() {
     }
 }
 
+function signOutUser() {
+    var savedCreds = JSON.parse(window.localStorage.getItem('SNCreds'));
+    if (savedCreds) {
+        window.localStorage.removeItem('SNCreds');
+        location.reload();
+    } else {
+        location.reload();
+    }
+}
+
 /**
  * @name updateLogInSave
  * @desc checks for the save credential chekcbox
@@ -350,7 +360,7 @@ function createActiveUserPersona() {
 function createWelcomeContent() {
     cornerProfImg.style.display = 'flex';
 
-    cornerProfImg.innerHTML = '<div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/><div>';
+    cornerProfImg.innerHTML = '<div class="user-sign-out" onclick="signOutUser()">Sign Out</div><div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img" onclick="openUserProfile(this)" data-email="' + activeUserPersona.email + '"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/><div>';
 
     welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img  onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
 
@@ -429,12 +439,32 @@ function pushToFeed() {
     }, 250);
 }
 
+function openUserProfile(action) {
+    var profilePersona;
+    users.forEach(function(user) {
+        if (action.dataset.email === user.email) {
+            profilePersona = user;
+        }
+    });
+    passDataToIframe(profilePersona);
+    // console.dir(profilePersona);
+}
+
+function passDataToIframe(profile) {
+    document.querySelector('#profileIframeContainer').style.display = 'flex';
+    var frameContainer = document.querySelector('#profileIframeContainer');
+
+    frameContainer.innerHTML = '<iframe name="' + profile.email + '" src="profilePage.html"></iframe>'
+}
+
 function initialize() {
     // DEFUALT HIDE THE CREATE PROFILE
     createProfileModal.style.display = 'none';
     // DEFUALT HIDE THE AUTHENTICATED USER CONTENT
     welcomeAuthed.style.display = 'none';
     cornerProfImg.style.display = 'none';
+
+    document.querySelector('#profileIframeContainer').style.display = 'none';
 
     initializeFirebase();
 

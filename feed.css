@@ -45,10 +45,12 @@
     color: #FFFFFF;
 }
 
-.welcome-login-btn button:hover {
+.welcome-login-btn button:hover ,
+.welcome-login-btn button:focus {
     background: #e7e7e7;
 }
-.welcome-login-btn button:first-of-type:hover {
+.welcome-login-btn button:first-of-type:hover,
+.welcome-login-btn button:first-of-type:focus {
     background: #245382;
 }
 
