@@ -461,6 +461,7 @@ function passDataToIframe(profile) {
 
 function closeProfile() {
     frameContainer.style.display = 'none';
+    closeProfileBtn.style.display = 'none';
     frameContainer.innerHTML = '';
 }
 
