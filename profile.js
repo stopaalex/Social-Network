@@ -83,7 +83,7 @@ function createProfilePosts() {
         }).join('');
 
         postsContainer.innerHTML = postHTML;
-    })
+    });
 }
 
 function initialize() {
