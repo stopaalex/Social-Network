@@ -107,7 +107,7 @@ function createProfilePosts() {
 function updateEditProfile(contentUpdated) {
     if (!editingProfile) {
         aboutContainer.text_content = '';
-        aboutContainer.innerHTML = '<textarea id="addAboutText"></textarea><button class="saveAboutText" onclick="updateProfile()">Save</button>'
+        aboutContainer.innerHTML = '<textarea id="addAboutText">' + selectedProfile.about+ '</textarea><div class="textarea-highlight"></div><button class="saveAboutText" onclick="updateProfile()">Save</button>'
         profileEdit.innerHTML = '<button onclick="updateEditProfile()"  >Close Edit</button>';
         editingProfile = true;
     } else {
