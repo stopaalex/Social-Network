@@ -67,9 +67,16 @@
     height: 60px;
     overflow:  hidden;
     border-radius:  100%;
+    border: 2px solid #e7e7e7;
     display:  flex;
     justify-content:  center;
     align-items:  center;
+    transition: 250ms;
+    cursor: pointer;
+}
+
+.welcome-img:hover {
+    border: 1px solid #000000;
 }
 
 .welcome-img img {

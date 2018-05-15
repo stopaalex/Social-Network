@@ -157,7 +157,6 @@
   .info {
     display: flex;
     align-items: center;
-    /* background:  #f2f2f2; */
 }
 
 .feed-post-img {
@@ -166,9 +165,16 @@
     margin: 10px 20px;
     overflow:  hidden;
     border-radius: 100%;
+    border: 2px solid #e7e7e7;
     display: flex;
     justify-content:  center;
     align-items: center;
+    cursor: pointer;
+    transition: 250ms;
+}
+
+.feed-post-img:hover {
+    border: 1px solid #000000;
 }
 
 .feed-post-img img {
@@ -182,7 +188,6 @@
 }
 
 .feed-post {
-    /* border-bottom: 1px solid #e7e7e7; */
     margin: 20px 0;
     position: relative;
 }
