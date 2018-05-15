@@ -197,7 +197,8 @@ function createNewUserProfile() {
             first_name: firstName,
             last_name: lastName,
             email: email,
-            pass: password  
+            pass: password,
+            about: ''
         });
 
         // GET TEH SELECTED FILE AND PUSH TO STORAGE

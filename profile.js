@@ -3,7 +3,14 @@ var email,
     posts,
     selectedProfile,
     currentUser,
-    selectedProfileIsCurrentUser = false;
+    selectedProfileIsCurrentUser = false,
+    editingProfile = false;
+
+const profileImg = document.querySelector('#profileImg');
+const profileName = document.querySelector('#profileName');
+const profileEdit = document.querySelector('#profileEdit');
+const aboutContainer = document.querySelector('#profileAbout');
+const postsContainer = document.querySelector('#profilePosts');
 
 function getEmail() {
     var temp = window.name.split(' ');
@@ -47,7 +54,7 @@ function getUserInfo() {
             users.push(childSnapshot.val());
         });
 
-        users.forEach(function(user) {
+        users.forEach(function (user) {
             if (user.email === email) {
                 selectedProfile = user;
             }
@@ -67,14 +74,10 @@ function getUserInfo() {
 }
 
 function createProfileHeader() {
-    let profileImg = document.querySelector('#profileImg');
-    let profileName = document.querySelector('#profileName');
-    let profileEdit = document.querySelector('#profileEdit');
-
     profileImg.innerHTML = '<img src="' + selectedProfile.pictue + '"/>';
     profileName.textContent = selectedProfile.first_name + ' ' + selectedProfile.last_name;
     if (selectedProfileIsCurrentUser) {
-        profileEdit.innerHTML = '<button>Edit Profile</button>'
+        profileEdit.innerHTML = '<button onclick="updateEditProfile()">Edit Profile</button>'
     } else {
         profileEdit.innerHTML = '';
     }
@@ -84,22 +87,35 @@ function createProfilePosts() {
     posts = [];
     var ref = database.ref("Posts");
 
-    ref.once("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
+    ref.once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
             var post = childSnapshot.val();
             if (post.poster.email === selectedProfile.email) {
                 posts.push(post);
             }
         });
 
-        let postsContainer = document.querySelector('#profilePosts');
+        aboutContainer.textContent = selectedProfile.about;
 
-        var postHTML = posts.map(function(post) {
+        var postHTML = posts.map(function (post) {
             return '<div class="profile-post"><div class="profile-post-date">' + post.date_string + '</div><div class="profile-post-text">' + post.text_content + '</div></div>'
         }).join('');
-
         postsContainer.innerHTML = postHTML;
     });
+}
+
+function updateEditProfile() {
+    if (!editingProfile) {
+        aboutContainer.text_content = '';
+        aboutContainer.innerHTML = '<input type="test">'
+        profileEdit.innerHTML = '<button onclick="updateEditProfile()"  >Close Edit</button>';
+        editingProfile = true;
+    } else {
+        aboutContainer.innerHTML = '';
+        aboutContainer.textContent = selectedProfile.about;
+        profileEdit.innerHTML = '<button onclick="updateEditProfile()">Edit Profile</button>';
+        editingProfile = false;
+    }
 }
 
 function initialize() {
