@@ -456,7 +456,7 @@ function openUserProfile(action) {
 function passDataToIframe(profile) {
     closeProfileBtn.style.display = 'flex';
     frameContainer.style.display = 'flex';
-    frameContainer.innerHTML = '<iframe name="' + profile.email + '" src="profilePage.html"></iframe>'
+    frameContainer.innerHTML = '<iframe name="' + profile.email + ' ' + activeUser + '" src="profilePage.html"></iframe>'
 }
 
 function closeProfile() {

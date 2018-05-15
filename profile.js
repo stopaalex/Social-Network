@@ -1,10 +1,14 @@
 var email,
     users,
     posts,
-    selectedProfile;
+    selectedProfile,
+    currentUser,
+    selectedProfileIsCurrentUser = false;
 
 function getEmail() {
-    email = window.name;
+    var temp = window.name.split(' ');
+    email = temp[0];
+    currentUser = temp[1];
 }
 
 /**
@@ -51,6 +55,11 @@ function getUserInfo() {
 
         selectedProfile.pictue = 'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/' + selectedProfile.first_name + '_' + selectedProfile.last_name + '_' + selectedProfile.unique_ID + '?alt=media&token=2133d104-6d2b-419c-b9d5-93c3bbdac05f';
 
+        if (selectedProfile.unique_ID === currentUser) {
+            selectedProfileIsCurrentUser = true;
+        } else {
+            selectedProfileIsCurrentUser = false;
+        }
         createProfileHeader();
         createProfilePosts();
 
@@ -60,8 +69,15 @@ function getUserInfo() {
 function createProfileHeader() {
     let profileImg = document.querySelector('#profileImg');
     let profileName = document.querySelector('#profileName');
+    let profileEdit = document.querySelector('#profileEdit');
+
     profileImg.innerHTML = '<img src="' + selectedProfile.pictue + '"/>';
     profileName.textContent = selectedProfile.first_name + ' ' + selectedProfile.last_name;
+    if (selectedProfileIsCurrentUser) {
+        profileEdit.innerHTML = '<button>Edit Profile</button>'
+    } else {
+        profileEdit.innerHTML = '';
+    }
 }
 
 function createProfilePosts() {
