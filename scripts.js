@@ -17,6 +17,9 @@ const feedContainter = document.querySelector('.feed-container');
 const welcomeUserContent = document.querySelector('#welcomeUserContent');
 const feedContent = document.querySelector('#feedContent');
 
+const frameContainer = document.querySelector('#profileIframeContainer');
+const closeProfileBtn = document.querySelector('.close-profile');
+
 
 var database,
     storage,
@@ -362,7 +365,7 @@ function createWelcomeContent() {
 
     cornerProfImg.innerHTML = '<div class="user-sign-out" onclick="signOutUser()">Sign Out</div><div class="user-name">' + activeUserPersona.firstName + '</div><div class="user-img" onclick="openUserProfile(this)" data-email="' + activeUserPersona.email + '"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/><div>';
 
-    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img"><img  onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
+    welcomeUserContent.innerHTML = '<div class="welcome-left"><div class="welcome-img" onclick="openUserProfile(this)" data-email="' + activeUserPersona.email + '"><img  onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + activeUserPersona.imgLocation + '"/></div></div><div class="welcome-new-post-text"><textarea id="newPostContent" placeholder="Whatcha thinkin\' about, ' + activeUserPersona.firstName + '?"></textarea><div class="active-textarea-underline"></div><div class="post-to-feed-btn"><button onclick="pushToFeed()">Post to Feed</button></div></div>';
 
 }
 
@@ -393,7 +396,7 @@ function getPostsForFeed() {
         var feedHTML = posts.map(function (post) {
             var poster = post.poster,
                 text_content = post.text_content;
-            return '<div class="feed-post"><div class="info"><div class="feed-post-img"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation + '"/></div><div class="feed-post-text"><div class="feed-post-name">' + post.poster.firstName + ' ' + post.poster.lastName + '</div><div class="feed-post-date">' + post.date_string + '</div></div></div><div class="text">' + text_content + '</div><div class="feed-border"></div></div>';
+            return '<div class="feed-post"><div class="info"><div class="feed-post-img" onclick="openUserProfile(this)" data-email="' + post.poster.email + '"><img onerror="this.onerror=null;this.src=\'https://firebasestorage.googleapis.com/v0/b/socialnetwork-6ff89.appspot.com/o/blankImage.png?alt=media&token=5dacfc62-362e-4be1-a929-0732441ae6be\'" src="' + post.poster.imgLocation + '"/></div><div class="feed-post-text"><div class="feed-post-name">' + post.poster.firstName + ' ' + post.poster.lastName + '</div><div class="feed-post-date">' + post.date_string + '</div></div></div><div class="text">' + text_content + '</div><div class="feed-border"></div></div>';
         }).join('');
 
         feedContent.innerHTML = feedHTML;
@@ -451,10 +454,14 @@ function openUserProfile(action) {
 }
 
 function passDataToIframe(profile) {
-    document.querySelector('#profileIframeContainer').style.display = 'flex';
-    var frameContainer = document.querySelector('#profileIframeContainer');
-
+    closeProfileBtn.style.display = 'flex';
+    frameContainer.style.display = 'flex';
     frameContainer.innerHTML = '<iframe name="' + profile.email + '" src="profilePage.html"></iframe>'
+}
+
+function closeProfile() {
+    frameContainer.style.display = 'none';
+    frameContainer.innerHTML = '';
 }
 
 function initialize() {
@@ -464,7 +471,8 @@ function initialize() {
     welcomeAuthed.style.display = 'none';
     cornerProfImg.style.display = 'none';
 
-    document.querySelector('#profileIframeContainer').style.display = 'none';
+    frameContainer.style.display = 'none'
+    closeProfileBtn.style.display = 'none';
 
     initializeFirebase();
 
