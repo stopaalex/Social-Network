@@ -104,10 +104,10 @@ function createProfilePosts() {
     });
 }
 
-function updateEditProfile() {
+function updateEditProfile(contentUpdated) {
     if (!editingProfile) {
         aboutContainer.text_content = '';
-        aboutContainer.innerHTML = '<input type="test">'
+        aboutContainer.innerHTML = '<textarea id="addAboutText"></textarea><button class="saveAboutText" onclick="updateProfile()">Save</button>'
         profileEdit.innerHTML = '<button onclick="updateEditProfile()"  >Close Edit</button>';
         editingProfile = true;
     } else {
@@ -116,6 +116,15 @@ function updateEditProfile() {
         profileEdit.innerHTML = '<button onclick="updateEditProfile()">Edit Profile</button>';
         editingProfile = false;
     }
+}
+
+function updateProfile() {
+    var aboutContent = document.querySelector('#addAboutText').value;
+    // PUSH THE DATA TO THE DATABASE
+    database.ref('users/' + selectedProfile.unique_ID).update({
+        about: aboutContent
+    });
+     location.reload();
 }
 
 function initialize() {
