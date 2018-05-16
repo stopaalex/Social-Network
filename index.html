@@ -86,12 +86,16 @@
       <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
     </div>
     <div class="home-welcome-authenticated">
-      <div class="welcome-user-container">
-        <div id="welcomeUserContent"></div>
+      <div class="home-authenticated-left">
+        <div class="welcome-user-container">
+          <div id="welcomeUserContent"></div>
+        </div>
+        <div class="feed-container">
+          <div id="feedContent"></div>
+        </div>
       </div>
-      <div class="feed-container">
-        <div id="feedContent"></div>
-      </div>
+      <button class="adjust-size-btn" onclick="adjustSize()"><i class="fa fa-chevron-left"></i></button>
+      <div class="home-authenticated-right"></div>
       <button class="close-profile" onclick="closeProfile()"><i class="fa fa-times"></i></button>
     </div>
     <div class="profile-iframe-container" id="profileIframeContainer"></div>

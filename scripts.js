@@ -20,6 +20,10 @@ const feedContent = document.querySelector('#feedContent');
 const frameContainer = document.querySelector('#profileIframeContainer');
 const closeProfileBtn = document.querySelector('.close-profile');
 
+const homeLeft = document.querySelector('.home-authenticated-left');
+const homeRight = document.querySelector('.home-authenticated-right');
+const toggleSize = document.querySelector('.adjust-size-btn').querySelector('i');;
+
 
 var database,
     storage,
@@ -28,7 +32,8 @@ var database,
     activeUser,
     userLoggedIn = false,
     userHasSavedCreds = false,
-    activeUserPersona;
+    activeUserPersona,
+    containerEnglarged = 'left';
 
 // // // // // // /
 // FUNCTIONS // //
@@ -441,6 +446,22 @@ function pushToFeed() {
     setTimeout(function () {
         getPostsForFeed();
     }, 250);
+}
+
+function adjustSize() {
+    if (containerEnglarged === 'left') {
+        homeLeft.style.flex = '1'
+        homeRight.style.flex = '2'
+        toggleSize.classList.remove('fa-chevron-left');
+        toggleSize.classList.add('fa-chevron-right');
+        containerEnglarged = 'right';
+    } else if (containerEnglarged === 'right') {
+        homeLeft.style.flex = '2'
+        homeRight.style.flex = '1'
+        toggleSize.classList.remove('fa-chevron-right');
+        toggleSize.classList.add('fa-chevron-left');
+        containerEnglarged = 'left';
+    }
 }
 
 function openUserProfile(action) {
