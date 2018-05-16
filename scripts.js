@@ -13,6 +13,7 @@ const welcomeNoAuth = document.querySelector('.home-welcome-not-authenticated');
 const cornerProfImg = document.querySelector('.welcome-corner-profile');
 const welcomeAuthed = document.querySelector('.home-welcome-authenticated');
 const welcomeUserContainer = document.querySelector('.welcome-user-container');
+const welcomePeopleContainer = document.querySelector('#welcomePeopleContainer');
 const feedContainter = document.querySelector('.feed-container');
 const welcomeUserContent = document.querySelector('#welcomeUserContent');
 const feedContent = document.querySelector('#feedContent');
@@ -348,6 +349,7 @@ function getLoggedInUserInfo() {
         createActiveUserPersona();
         createWelcomeContent();
         getPostsForFeed();
+        createPeopleList();
     }, 1000);
 
 
@@ -446,6 +448,14 @@ function pushToFeed() {
     setTimeout(function () {
         getPostsForFeed();
     }, 250);
+}
+
+function createPeopleList() {
+    var listPeopleHTML = users.map(function(user) {
+        return '<div class="person-container"><div>' + user.first_name + '</div></div>'
+    }).join('');
+    welcomePeopleContainer.innerHTML = listPeopleHTML;
+    console.log(users);
 }
 
 function adjustSize() {
