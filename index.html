@@ -4,63 +4,47 @@
 <head>
   <meta charset="UTF-8">
   <title>Social Network Test</title>
-  <link rel="stylesheet"
-        href="style.css">
-  <link rel="stylesheet"
-        href="feed.css">
-  <link rel="stylesheet"
-        href="createProfile.css">
-  <link rel="stylesheet"
-        href="userAuthedIn.css">
-  <link rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-        integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
-        crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="feed.css">
+  <link rel="stylesheet" href="createProfile.css">
+  <link rel="stylesheet" href="userAuthedIn.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 </head>
 
 <body>
 
   <div class="home-header header">
-    <div class="diagonal-container">
-      <div id="goHome">
-        <div>SOCIAL</div>
-        <div>network</div>
-      </div>
+    <div id="goHome">
+      <div>SOCIAL</div>
+      <div>network</div>
     </div>
   </div>
 
   <div class="home-body body">
     <div class="home-welcome-not-authenticated">
       <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
-      <div class="welcome-login-content"
-           id="welcomeLoginContent">
+      <div class="welcome-login-content" id="welcomeLoginContent">
         <div class="welcome-login">
           <div class="welcome-inputs">
             <div class="input-container">
-              <input type="text"
-                     required
-                     id="logInEmail">
+              <input type="text" required id="logInEmail">
               <span class="one"></span>
               <label class="label">Email</label>
             </div>
             <div class="input-container">
-              <input type="password"
-                     required
-                     id="logInPassword">
+              <input type="password" required id="logInPassword">
               <span class="one"></span>
               <label class="label">Password</label>
             </div>
           </div>
           <div class="welcome-login-btn">
-            <button id="welcomeLoginBtn"
-                    onclick="userLogIn()">Log In</button>
+            <button id="welcomeLoginBtn" onclick="userLogIn()">Log In</button>
             <div>New iuser?</div>
-            <button id="welcomeCreateBtn"
-                    onclick="showCreateProfileModal()">Create Profile</button>
+            <button id="welcomeCreateBtn" onclick="showCreateProfileModal()">Create Profile</button>
           </div>
           <div class="save-login">
             <input type="checkbox" id="saveLogInConfirm">
@@ -69,19 +53,7 @@
         </div>
       </div>
       <div class="welcome-welcome-content" id="welcomeWelcomeContent">
-        <div class="welcome-text">
-          <div class="welcome-to">
-            Welcome to the
-          </div>
-          <div class="name">
-            <div>SOCIAL</div>
-            <div>network</div>
-          </div>
-        </div>
-        <div class="overlay"></div>
-        <div class="welcome-image">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Social_Network_Analysis_Visualization.png">
-        </div>
+        <div class="random-background"></div>
       </div>
       <!-- THIS GETS HIDDEN IF THE USER IS LOGGED IN -->
     </div>
@@ -94,11 +66,15 @@
           <div id="feedContent"></div>
         </div>
       </div>
-      <button class="adjust-size-btn" onclick="adjustSize()"><i class="fa fa-chevron-left"></i></button>
+      <button class="adjust-size-btn" onclick="adjustSize()">
+        <i class="fa fa-chevron-left"></i>
+      </button>
       <div class="home-authenticated-right">
         <div class="welcome-people-container" id="welcomePeopleContainer"></div>
       </div>
-      <button class="close-profile" onclick="closeProfile()"><i class="fa fa-times"></i></button>
+      <button class="close-profile" onclick="closeProfile()">
+        <i class="fa fa-times"></i>
+      </button>
     </div>
     <div class="profile-iframe-container" id="profileIframeContainer"></div>
   </div>
@@ -108,47 +84,34 @@
   </div>
 
   <!-- CREATE NEW PROFILE MODAL -->
-  <div class="create-profile-modal"
-       id="createProfileModal">
+  <div class="create-profile-modal" id="createProfileModal">
     <div class="create-profile-content">
-      <button class="close-create-profile-modal"
-              id="closeCreateProfileModal"
-              onclick="hideCreateProfileModal()">
+      <button class="close-create-profile-modal" id="closeCreateProfileModal" onclick="hideCreateProfileModal()">
         <i class="fa fa-times"></i>
       </button>
       <div class="create-profile-info">
         <div class="input-container">
-          <input type="text"
-                 required
-                 id="createFirstName">
+          <input type="text" required id="createFirstName">
           <span class="one"></span>
           <label class="label">First Name</label>
         </div>
         <div class="input-container">
-          <input type="text"
-                 required
-                 id="createLastName">
+          <input type="text" required id="createLastName">
           <span class="one"></span>
           <label class="label">Last Name</label>
         </div>
         <div class="input-container">
-            <input type="text"
-                   required
-                   id="createEmail">
-            <span class="one"></span>
-            <label class="label">Email</label>
-          </div>
+          <input type="text" required id="createEmail">
+          <span class="one"></span>
+          <label class="label">Email</label>
+        </div>
         <div class="input-container">
-          <input type="password"
-                 required
-                 id="createPassword">
+          <input type="password" required id="createPassword">
           <span class="one"></span>
           <label class="label">Password</label>
         </div>
         <div class="input-container">
-          <input type="password"
-                 required
-                 id="createPasswordCheck">
+          <input type="password" required id="createPasswordCheck">
           <span class="one"></span>
           <label class="label">Re-enter Password</label>
         </div>

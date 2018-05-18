@@ -1,13 +1,14 @@
 .welcome-corner-profile {
     position:  absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     display:  flex;
     align-items: center;
 }
 
 .welcome-corner-profile .user-name {
     padding-right: 10px;
+    color: #FFFFFF
 }
 
 .welcome-corner-profile .user-img {
@@ -40,7 +41,7 @@
     font-size: 0.75em;
     cursor:  pointer;
     border-radius: 5px;
-    color: #666666;
+    color: #FFFFFF;
 }
 
 .welcome-corner-profile .user-sign-out:hover {

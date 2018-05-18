@@ -106,6 +106,7 @@ function checkForSavedCreds() {
         userHasSavedCreds = true;
         autoLogIn(savedCreds);
     }
+
 }
 
 /**
@@ -145,11 +146,11 @@ function hideCreateProfileModal() {
     // HIDE THE MODAL AND CLEAR ALL THE DATA
     createProfileModal.style.display = 'none';
     document.querySelector('#createFirstName').value = '',
-    document.querySelector('#createLastName').value = '',
-    document.querySelector('#createEmail').value = '';
+        document.querySelector('#createLastName').value = '',
+        document.querySelector('#createEmail').value = '';
     document.querySelector('#createPassword').value = '',
-    document.querySelector('#createPasswordCheck').value = '',
-    document.querySelector('#createProfileAlert').textContent = null;
+        document.querySelector('#createPasswordCheck').value = '',
+        document.querySelector('#createProfileAlert').textContent = null;
 }
 
 /**
@@ -168,12 +169,12 @@ function createNewUserProfile() {
         uniqueEmail = true;
 
     // CHECK FOR EMAIL ALREADY IN USE
-    users.forEach(function(user) {
+    users.forEach(function (user) {
         if (user.email === email) {
             uniqueEmail = false;
         }
     });
-        
+
     // VALIDATE PASSWORDS
     if (password !== passwordCheck) {
         console.log('PASSWORDS DONT MATCH');
@@ -426,7 +427,7 @@ function pushToFeed() {
     var datePlaceHolder = new Date,
         time = datePlaceHolder.getHours() + ':' + datePlaceHolder.getMinutes(),
         date = datePlaceHolder.getMonth() + '/' + datePlaceHolder.getMonth() + '/' + datePlaceHolder.getFullYear(),
-        dateString = (date  + ' ' + time).toString();
+        dateString = (date + ' ' + time).toString();
 
     var newPostContent = document.querySelector('#newPostContent').value;
 
@@ -451,7 +452,7 @@ function pushToFeed() {
 }
 
 function createPeopleList() {
-    var listPeopleHTML = users.map(function(user) {
+    var listPeopleHTML = users.map(function (user) {
         return '<div class="person-container"><div>' + user.first_name + '</div></div>'
     }).join('');
     welcomePeopleContainer.innerHTML = listPeopleHTML;
@@ -476,7 +477,7 @@ function adjustSize() {
 
 function openUserProfile(action) {
     var profilePersona;
-    users.forEach(function(user) {
+    users.forEach(function (user) {
         if (action.dataset.email === user.email) {
             profilePersona = user;
         }
@@ -497,6 +498,21 @@ function closeProfile() {
     frameContainer.innerHTML = '';
 }
 
+function createRandomBackground() {
+    var backgroundContainer = document.querySelector('.random-background');
+
+    for (var i = 0; i < 1000; i++) {
+        var randomScale = Math.round(Math.random() * 10);
+        var randomRotate = Math.round(Math.random() * 360);
+        var html = '<div class="squigle" style="transform:scaleY(' + randomScale + ') rotate(' + randomRotate + 'deg)"></div>';
+        if (i < 1) {
+            backgroundContainer.innerHTML = html;
+        } else {
+            backgroundContainer.innerHTML = backgroundContainer.innerHTML + html;
+        }
+    }
+}
+
 function initialize() {
     // DEFUALT HIDE THE CREATE PROFILE
     createProfileModal.style.display = 'none';
@@ -508,6 +524,8 @@ function initialize() {
     closeProfileBtn.style.display = 'none';
 
     initializeFirebase();
+
+    // setTimeout(createRandomBackground(), 1000);
 
     saveLogInConfirm.addEventListener('change', updateLogInSave);
 

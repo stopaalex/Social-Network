@@ -3,8 +3,6 @@
     display: flex;
     justify-content: center;
     padding: 20px;
-    padding-bottom: 30px;
-    margin-top: -20px;
     border-bottom: 1px solid #e7e7e7;
 }
 .welcome-login {
@@ -101,59 +99,6 @@
     content: '\2713' !important;
 }
 
-/* WELCOME SPLASH SCREEN */
-.welcome-welcome-content {
-    position:  absolute;
-    left: 0;
-    /*     border: 1px dashed blue; */
-    height: calc(100vh - 220px);
-    width: 100vw;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    display: flex;
-    justify-content:  center;
-    align-items:  center;
-  }
-  
-  .overlay {
-    position:  absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background: radial-gradient(transparent, #FFFFFF 60%);
-  }
-  
-  .welcome-text {
-    position:  absolute;
-    z-index: 2;
-    top: 30px;
-    left: 100px;
-    right: 100px;
-    bottom: 0;
-    display:  flex;
-    flex-direction:  column;
-    align-items:  center;
-  }
-  
-  .welcome-to {
-    font-size: 1.25em;
-  }
-  
-  .name {
-    font-size:  3em;
-    font-weight: 600;
-    padding: 0 10px 0 20px;
-  }
-  
-  .name div {
-    /* position: absolute; */
-  }
-  
-  .name div:last-of-type {
-    margin-top: -21px;
-  }
-
   .info {
     display: flex;
     align-items: center;
@@ -214,4 +159,23 @@
 iframe {
     width: 100%;
     border: none;
+}
+
+.squigle {
+    min-width:  10px;
+    height: 10px;
+}
+
+.squigle::after {
+    content: '\27E1';
+}
+
+.random-background {
+    display:  flex;
+    flex-wrap:  wrap;
+    justify-content:  center;
+    align-items: center;
+    height: calc(100vh - 200px);
+    overflow: hidden;
+    opacity: 0.15;
 }
